@@ -15,13 +15,20 @@ def index():
 def generate_text():
     user_message = request.json.get('prompt')
     
-    # Use conversation method
-    messages = [{"role": "user", "content": user_message}]
+    # Set up the conversation structure with the user's message
+    messages = [
+        {"role": "system", "content": "You are a helpful assistant."},
+        {"role": "user", "content": user_message}
+    ]
+    
+    # Make the API call
     response = openai.ChatCompletion.create(
         model="gpt-3.5-turbo",
         messages=messages
     )
-    response_message = response["choices"][0]["message"]["content"]
+    
+    # Extract the assistant's message from the response
+    response_message = response['choices'][0]['message']['content']
     
     return jsonify(response_message.strip())
 
