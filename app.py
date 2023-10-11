@@ -14,7 +14,7 @@ def index():
 @app.route('/generate', methods=['POST'])
 def generate_text():
     prompt = request.json.get('prompt')
-    response = openai.Completion.create(engine="davinci", prompt=prompt, max_tokens=150)
+    response = openai.Completion.create(model="gpt-3.5-turbo", prompt=prompt, max_tokens=100, temperature=0.7, top_p=1, frequency_penalty=0, presence_penalty=0.3, stop=["\n"])
     return jsonify(response.choices[0].text.strip())
 
 if __name__ == '__main__':
