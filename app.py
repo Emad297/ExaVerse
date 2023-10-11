@@ -20,7 +20,7 @@ def generate_text():
         messages = [{"role": "system", "content" : "You are ChatGPT, a large language model trained by OpenAI. Answer as concisely as possible."},
         {"role": "user", "content" : user_message}]
     )
-    return jsonify({'text': completion.choices[0].text})
+    return jsonify({'text': completion.choices[0].message['content']})
 
 if __name__ == '__main__':
     app.run(host='0.0.0.0', port=int(os.environ.get('PORT', 5000)))
