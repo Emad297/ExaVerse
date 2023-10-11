@@ -11,31 +11,16 @@ openai.api_key = os.environ.get('OPENAI_SECRET_KEY')
 def index():
     return render_template('index.html')
 
+# Generate text from prompt from gpt-3.5-turbo model
 @app.route('/generate', methods=['POST'])
 def generate_text():
-    try:
-        user_message = request.json.get('prompt')
-        app.logger.info(f"Received user message: {user_message}")
-
-        messages = [
-            {"role": "system", "content": "You are a helpful assistant."},
-            {"role": "user", "content": user_message}
-        ]
-
-        response = openai.ChatCompletion.create(
-            model="gpt-3.5-turbo",
-            messages=messages
-        )
-
-        app.logger.info(f"OpenAI response: {response}")
-
-        response_message = response['choices'][0]['message']['content']
-
-        return jsonify(response_message.strip())
-
-    except Exception as e:
-        app.logger.error(f"Error occurred: {e}")
-        return jsonify({"error": "An error occurred while processing the request."}), 500
+    user_message = request.json.get('prompt')
+    completion = openai.ChatCompletion.create(
+        model="gpt-3.5-turbo", 
+        messages = [{"role": "system", "content" : "You are ChatGPT, a large language model trained by OpenAI. Answer as concisely as possible."},
+        {"role": "user", "content" : user_message}]
+    )
+    return jsonify({'text': completion.choices[0].text})
 
 if __name__ == '__main__':
     app.run(host='0.0.0.0', port=int(os.environ.get('PORT', 5000)))
