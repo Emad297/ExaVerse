@@ -50,12 +50,10 @@
 
     function displayMessage(message, sender) {
         const messageElement = document.createElement('div');
-        message = message.replace(/\n/g, '<br>');  // Replace newline characters with line break tags
-        messageElement.innerHTML = message;  // Use innerHTML instead of textContent
+        messageElement.textContent = message;
         messageElement.className = sender;
         chatMessages.appendChild(messageElement);
     }
-
 </script>
 
 </body>
