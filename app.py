@@ -1,4 +1,4 @@
-from flask import Flask, request, jsonify, render_template
+from flask import Flask, request, jsonify
 import openai
 import os
 
@@ -6,10 +6,6 @@ app = Flask(__name__)
 
 # Initialize OpenAI API with your secret key from the Azure environment
 openai.api_key = os.environ.get('OPENAI_SECRET_KEY')
-
-@app.route('/')
-def index():
-    return render_template('index.html')
 
 # Generate text from prompt from gpt-3.5-turbo model
 @app.route('/generate', methods=['POST'])
